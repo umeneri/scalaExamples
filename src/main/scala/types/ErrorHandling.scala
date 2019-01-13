@@ -12,4 +12,5 @@ object ErrorHandling extends App {
   val h = errorIfNeeded(-1)
   println(h)
 
+
 }

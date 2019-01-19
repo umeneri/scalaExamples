@@ -7,7 +7,6 @@ import java.time.{ZonedDateTime}
 
 
 class MemberSpec extends fixture.FlatSpec with Matchers with AutoRollback {
-
   val m = Member.syntax("m")
 
   behavior of "Member"
@@ -37,7 +36,7 @@ class MemberSpec extends fixture.FlatSpec with Matchers with AutoRollback {
     count should be >(0L)
   }
   it should "create new record" in { implicit session =>
-    val created = Member.create(name = "MyString", creatredAt = null, updatedAt = null)
+    val created = Member.create(name = "MyString", createdAt = null, updatedAt = null)
     created should not be(null)
   }
   it should "save a record" in { implicit session =>

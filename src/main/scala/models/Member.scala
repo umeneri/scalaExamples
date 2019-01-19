@@ -7,7 +7,7 @@ case class Member(
   id: Long,
   name: String,
   description: Option[String] = None,
-  creatredAt: ZonedDateTime,
+  createdAt: ZonedDateTime,
   updatedAt: ZonedDateTime) {
 
   def save()(implicit session: DBSession = Member.autoSession): Member = Member.save(this)(session)
@@ -21,14 +21,14 @@ object Member extends SQLSyntaxSupport[Member] {
 
   override val tableName = "member"
 
-  override val columns = Seq("id", "name", "description", "creatred_at", "updated_at")
+  override val columns = Seq("id", "name", "description", "created_at", "updated_at")
 
   def apply(m: SyntaxProvider[Member])(rs: WrappedResultSet): Member = apply(m.resultName)(rs)
   def apply(m: ResultName[Member])(rs: WrappedResultSet): Member = new Member(
     id = rs.get(m.id),
     name = rs.get(m.name),
     description = rs.get(m.description),
-    creatredAt = rs.get(m.creatredAt),
+    createdAt = rs.get(m.createdAt),
     updatedAt = rs.get(m.updatedAt)
   )
 
@@ -71,13 +71,13 @@ object Member extends SQLSyntaxSupport[Member] {
   def create(
     name: String,
     description: Option[String] = None,
-    creatredAt: ZonedDateTime,
+    createdAt: ZonedDateTime,
     updatedAt: ZonedDateTime)(implicit session: DBSession = autoSession): Member = {
     val generatedKey = withSQL {
       insert.into(Member).namedValues(
         column.name -> name,
         column.description -> description,
-        column.creatredAt -> creatredAt,
+        column.createdAt -> createdAt,
         column.updatedAt -> updatedAt
       )
     }.updateAndReturnGeneratedKey.apply()
@@ -86,7 +86,7 @@ object Member extends SQLSyntaxSupport[Member] {
       id = generatedKey,
       name = name,
       description = description,
-      creatredAt = creatredAt,
+      createdAt = createdAt,
       updatedAt = updatedAt)
   }
 
@@ -95,17 +95,17 @@ object Member extends SQLSyntaxSupport[Member] {
       Seq(
         'name -> entity.name,
         'description -> entity.description,
-        'creatredAt -> entity.creatredAt,
+        'createdAt -> entity.createdAt,
         'updatedAt -> entity.updatedAt))
     SQL("""insert into member(
       name,
       description,
-      creatred_at,
+      created_at,
       updated_at
     ) values (
       {name},
       {description},
-      {creatredAt},
+      {createdAt},
       {updatedAt}
     )""").batchByName(params: _*).apply[List]()
   }
@@ -116,7 +116,7 @@ object Member extends SQLSyntaxSupport[Member] {
         column.id -> entity.id,
         column.name -> entity.name,
         column.description -> entity.description,
-        column.creatredAt -> entity.creatredAt,
+        column.createdAt -> entity.createdAt,
         column.updatedAt -> entity.updatedAt
       ).where.eq(column.id, entity.id)
     }.update.apply()

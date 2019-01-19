@@ -1,14 +1,14 @@
 package models
 
 import scalikejdbc._
-import java.time.{OffsetDateTime}
+import java.time.{ZonedDateTime}
 
 case class Member(
   id: Long,
   name: String,
   description: Option[String] = None,
-  creatredAt: OffsetDateTime,
-  updatedAt: OffsetDateTime) {
+  creatredAt: ZonedDateTime,
+  updatedAt: ZonedDateTime) {
 
   def save()(implicit session: DBSession = Member.autoSession): Member = Member.save(this)(session)
 
@@ -18,8 +18,6 @@ case class Member(
 
 
 object Member extends SQLSyntaxSupport[Member] {
-
-  override val schemaName = Some("member")
 
   override val tableName = "member"
 
@@ -73,8 +71,8 @@ object Member extends SQLSyntaxSupport[Member] {
   def create(
     name: String,
     description: Option[String] = None,
-    creatredAt: OffsetDateTime,
-    updatedAt: OffsetDateTime)(implicit session: DBSession = autoSession): Member = {
+    creatredAt: ZonedDateTime,
+    updatedAt: ZonedDateTime)(implicit session: DBSession = autoSession): Member = {
     val generatedKey = withSQL {
       insert.into(Member).namedValues(
         column.name -> name,

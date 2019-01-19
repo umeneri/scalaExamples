@@ -8,6 +8,4 @@ import scalikejdbc.config._
 object mysqlAccess extends App {
   DBs.setupAll()
 
-  Member()
-
 }

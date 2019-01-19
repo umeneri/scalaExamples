@@ -3,10 +3,11 @@ package models
 import org.scalatest._
 import scalikejdbc.scalatest.AutoRollback
 import scalikejdbc._
-import java.time.{OffsetDateTime}
+import java.time.{ZonedDateTime}
 
 
 class MemberSpec extends fixture.FlatSpec with Matchers with AutoRollback {
+
   val m = Member.syntax("m")
 
   behavior of "Member"

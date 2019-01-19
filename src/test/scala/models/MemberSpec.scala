@@ -7,6 +7,15 @@ import java.time.{ZonedDateTime}
 
 
 class MemberSpec extends fixture.FlatSpec with Matchers with AutoRollback {
+
+  config.DBs.setup()
+
+  override def fixture(implicit session: DBSession) {
+    sql"insert into member values (1, ${"Alice"}, '', current_timestamp, current_timestamp)".update.apply()
+    sql"insert into member values (2, ${"Bob"},  '', current_timestamp, current_timestamp)".update.apply()
+  }
+
+
   val m = Member.syntax("m")
 
   behavior of "Member"
@@ -36,13 +45,12 @@ class MemberSpec extends fixture.FlatSpec with Matchers with AutoRollback {
     count should be >(0L)
   }
   it should "create new record" in { implicit session =>
-    val created = Member.create(name = "MyString", createdAt = null, updatedAt = null)
+    val created = Member.create(name = "MyString", createdAt = ZonedDateTime.now(), updatedAt = ZonedDateTime.now())
     created should not be(null)
   }
   it should "save a record" in { implicit session =>
     val entity = Member.findAll().head
-    // TODO modify something
-    val modified = entity
+    val modified = entity.copy(name = "member1")
     val updated = Member.save(modified)
     updated should not equal(entity)
   }

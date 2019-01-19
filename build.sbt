@@ -14,3 +14,14 @@ libraryDependencies ++= Seq(
   "org.scalatest" %% "scalatest" % "3.0.5" % "test",
   "org.mockito" % "mockito-core" % "2.23.0" % "test"
 )
+
+// jdbc
+// Scala 2.10, 2.11, 2.12
+libraryDependencies ++= Seq(
+  "org.scalikejdbc" %% "scalikejdbc" % "3.3.+",
+  "com.h2database" % "h2" % "1.4.197",
+  "ch.qos.logback" % "logback-classic" % "1.2.3"
+)
+
+
+enablePlugins(ScalikejdbcPlugin)

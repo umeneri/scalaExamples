@@ -19,9 +19,9 @@ libraryDependencies ++= Seq(
 // Scala 2.10, 2.11, 2.12
 libraryDependencies ++= Seq(
   "org.scalikejdbc" %% "scalikejdbc" % "3.3.+",
-  "com.h2database" % "h2" % "1.4.197",
+  "org.scalikejdbc" %% "scalikejdbc-test"   % "3.3.+"   % "test",
+  "org.scalikejdbc" %% "scalikejdbc-config" % "3.3.+",
   "ch.qos.logback" % "logback-classic" % "1.2.3",
-  "org.scalikejdbc" %% "scalikejdbc-config" % "3.3.2",
   "mysql" % "mysql-connector-java" % "5.1.29",
 )
 

@@ -1,47 +1,54 @@
-# GitPitch In-60-Seconds - A Very Short Tutorial.
-#
+# Scalikejdbc tutorial
 
-#
-# Theme Setting
-# Doc: https://gitpitch.com/docs/settings/theme
-#
-theme : simple
+---
 
-#
-# Theme-Override Setting
-# Doc: https://gitpitch.com/docs/settings/custom-theme
-#
-theme-override: assets/css/PITCHME.css
+## scalikejdbc?
+- SQL-based DB access library for Scala developers
+- Amazon Redshift and Facebook Presto support (slick is not supported) 
 
-#
-# Logo Setting
-# https://gitpitch.com/docs/settings/logo
-#
-logo : assets/img/logo.png
-logo-postion : top-left
+## demerit:
+- blocking io (slick 3.0 is non-blocking)
 
-#
-# Layout Setting
-# Doc: https://gitpitch.com/docs/settings/layout
-#
-layout : center
+---
 
-#
-# Footnote Setting
-# Doc: https://gitpitch.com/docs/settings/footnote
-#
-footnote : "GitPitch - The Fastest Way From Idea To Presentation"
+## execute SQL
+```scala
+sql"""
+create table members (
+  id serial not null primary key,
+  name varchar(64),
+  created_at timestamp not null
+)
+""".execute.apply()
+``` 
 
-#
-# Published Setting
-# Doc: https://gitpitch.com/docs/settings/published
-#
-published : true
+---
 
-#
-# Twitter Card Settings [Pro Only]
-# Doc: https://gitpitch.com/docs/settings/twitter-card
-#
-title : "GitPitch In 60 Seconds"
-description : "A short tutorial introducing the power and simplicity of GitPitch, the markdown presentation service on Git."
-thumbnail : https://gitpitch.com/gpimg/tutorial-thumb.png
+## QueryDSL
+```scala
+select
+      .from(Programmer as p)
+      .leftJoin(Company as c).on(p.companyId, c.id)
+      .where.eq(p.isDeleted, false)
+      .orderBy(p.createdAt)
+      .limit(10)
+      .offset(0)
+```
+
+---
+
+## Transaction
+
+```scala
+DB localTx { implicit session => // transactional session
+  val id = Product.create("ScalikeJDBC Cookbook", 200) // within transaction
+  val product = Product.findById(id) // within transaction
+}
+```
+
+---
+
+## Code Generation
+- generating source and test code by scalikejdbc-mapper-generator
+
+

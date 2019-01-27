@@ -22,7 +22,7 @@ libraryDependencies ++= Seq(
   "org.scalikejdbc" %% "scalikejdbc-test"   % "3.3.+"   % "test",
   "org.scalikejdbc" %% "scalikejdbc-config" % "3.3.+",
   "ch.qos.logback" % "logback-classic" % "1.2.3",
-  "mysql" % "mysql-connector-java" % "8.0.+",
+  "mysql" % "mysql-connector-java" % "5.1.29",
 )
 
 enablePlugins(ScalikejdbcPlugin)

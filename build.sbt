@@ -26,3 +26,6 @@ libraryDependencies ++= Seq(
 )
 
 enablePlugins(ScalikejdbcPlugin)
+
+// scrape
+libraryDependencies += "net.ruippeixotog" %% "scala-scraper" % "2.1.0"

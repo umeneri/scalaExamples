@@ -10,15 +10,16 @@ object ScrapeExample {
     val url = "http://konbu13.hatenablog.com/"
     val browser = JsoupBrowser()
 
-    crawl(url, browser, 3)
+    val titles = crawl(url, browser, 2)
+    println(titles)
   }
 
-  def crawl(url: String, browser: Browser, count: Int): Unit = count match {
-    case 0 => ()
+  def crawl(url: String, browser: Browser, count: Int): Seq[String] = count match {
+    case 0 => Seq.empty
     case _ =>
       println(s"process url: $url count: $count")
 
-      Thread.sleep(1000)
+      Thread.sleep(300)
 
       val doc: browser.DocumentType = browser.get(url)
       val titles = getTitles(doc).getOrElse(Nil)
@@ -26,12 +27,12 @@ object ScrapeExample {
 
       println(s"titles: $titles")
 
-      links.foreach(crawl(_, browser, count - 1))
+      titles ++ links.flatMap(crawl(_, browser, count - 1))
   }
 
   private def getLinks(doc: Document): Option[Seq[String]] = {
     val tagItemsOpt = doc >?> elementList("#box2-inner > div.hatena-module.hatena-module-category > div.hatena-module-body > ul.hatena-urllist li a")
-    tagItemsOpt.map(tagItems => tagItems.map(_.attr("href")).take(3))
+    tagItemsOpt.map(tagItems => tagItems.map(_.attr("href")))
   }
 
   private def getTitles(doc: Document): Option[Seq[String]] = {
